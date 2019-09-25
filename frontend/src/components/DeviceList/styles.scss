@@ -1,0 +1,46 @@
+.container {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 16px;
+    width: 40%;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: $color-2;
+    box-shadow: $shadow;
+
+    > * {
+        margin-bottom: 8px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+    .input {
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+.device {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: $color-1;
+    color: black;
+    box-shadow: $shadow;
+
+    .meta {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.active {
+        font-weight: bold;
+    }
+}
+

@@ -1,0 +1,99 @@
+.container {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    width: 40%;
+    height: fit-content;
+    background-color: $color-2;
+    border-radius: 8px;
+    box-shadow: $shadow;
+    max-height: 16px;
+    overflow: hidden;
+    transition: max-height 0.2s;
+
+    &.active {
+        max-height: 100vh;
+    }
+
+    > * {
+        margin-bottom: 8px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.heading {
+    color: $color-4;
+    font-weight: bold;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: $color-1;
+    border-radius: 8px;
+    box-shadow: $shadow;
+    padding: 8px;
+}
+
+.entry {
+    @extend .card;
+
+
+    .key {
+
+    }
+
+    .value {
+
+    }
+}
+
+.measurement {
+
+    .measurement-heading {
+        @extend .card;
+        align-items: center;
+
+        .timestamp {
+
+        }
+
+        .expand-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid $color-4;
+            color: $color-4;
+            font-weight: bold;
+            font-size: 24px;
+        }
+    }
+
+    .measurement-body {
+        overflow: hidden;
+        height: fit-content;
+        max-height: 50vh;
+        opacity: 1;
+        transition: max-height 0.2s, opacity 0.2s;
+
+        > * {
+            margin: 8px;
+        }
+
+        &.closed {
+            max-height: 0;
+            opacity: 0;
+        }
+    }
+    
+}
