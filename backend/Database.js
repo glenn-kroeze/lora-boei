@@ -21,11 +21,16 @@ class Database {
 
         await knex.schema.createTable('devices', table => {
             table.increments('id').primary();
-            table.string('location');
+            table.string('name');
+            table.json('location');
+            table.dateTime('createdAt');
+            table.dateTime('lastSeen');
         });
 
         await knex.schema.createTable('measurements', table => {
             table.integer('deviceId').references('devices.id');
+            table.float('waterTemperature');
+            table.float('airTemperature');
             table.date('timestamp');
         })
     }
