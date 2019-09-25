@@ -5,7 +5,7 @@ const knex = Knex({
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
-        filename: 'example.db'
+        filename: './example.db'
     }
 });
 
