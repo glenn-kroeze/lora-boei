@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-    API_URL: 'http://145.24.222.198'
+    API_URL: 'http://145.24.222.198/api'
 }
