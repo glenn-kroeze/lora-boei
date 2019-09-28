@@ -9,13 +9,13 @@ const PORT = process.env.PORT || 4000;
 
 const { Device, Measurement } = require('./models');
 
-app.get('/devices', async (req, res) => {
+app.get('/api/devices', async (req, res) => {
   const devices = await Device.query()
     .orderBy('id');
   res.send(devices);
 });
 
-app.get('/measurements', async (req, res) => {
+app.get('/api/measurements', async (req, res) => {
   const id = req.query.deviceId;
   const measurements = await Measurement.query()
     .where({deviceId: id});
