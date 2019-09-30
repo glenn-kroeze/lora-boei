@@ -12,6 +12,22 @@ export default ({ devices, selectedDeviceId, onSelect }) => {
         }
     }, [selectedDeviceId])
 
+    //Remove annoying prompt
+    useEffect(() => {
+        if(map) {
+            const mapElem = document.getElementById('map');
+            const tryToRemove = () => {
+                const numberOfChildren = mapElem.childElementCount;
+                if(numberOfChildren < 2) {
+                    setTimeout(tryToRemove, 100);
+                } else {
+                    mapElem.lastChild.remove();
+                }
+            }
+            tryToRemove();
+        }
+    }, [map])
+
     return (
         <LoadScript
             id="script-loader"
@@ -20,13 +36,16 @@ export default ({ devices, selectedDeviceId, onSelect }) => {
                 id='map'
                 mapContainerClassName={styles.mapContainer}
                 zoom={14}
-                center={{ lat: 51.911, lng: 4.486 }}
+                center={selectedDeviceId 
+                    ? devices.find(d => d.id === selectedDeviceId).location
+                    : { lat: 51.911, lng: 4.486 }}
                 onLoad={o => setMap(o.data.map)}
             >
                 {devices.map(d => (
                         <Marker
+                            key={d.id}
                             position={d.location}
-                            onClick={() => onSelect(d)}
+                            onClick={() => onSelect(d.id)}
                         />
                 ))}
             </GoogleMap>

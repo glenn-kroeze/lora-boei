@@ -5,16 +5,35 @@ import { Map, DeviceList, RawView } from './components';
 import './main.scss';
 import styles from './styles.scss';
 
-const noop = () => null;
+
 
 const App = () => {
     const [devices, setDevices] = useState([]);
     const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+    const selectedDevice = devices.find(d => d.id === selectedDeviceId);
 
-    useEffect(
-        () => {
-            getDevices().then(setDevices)
-        }, [])
+    const handleKey = e => {
+        const selectedIndex = devices.indexOf(selectedDevice);
+        if (e.key === 'ArrowUp') {
+            const previous = devices[selectedIndex - 1];
+            setSelectedDeviceId(previous ? previous.id : devices.length);
+        }
+
+        if (e.key === 'ArrowDown') {
+            const next = devices[selectedIndex + 1];
+
+            setSelectedDeviceId(next ? next.id : devices[0].id);
+        }
+    }
+
+    useEffect(() => {
+            getDevices().then(setDevices);
+        }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKey);
+        return () => document.removeEventListener('keydown', handleKey);
+    }, [selectedDeviceId, devices])
 
     return (
         <div className={styles.container}>

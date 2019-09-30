@@ -11,6 +11,7 @@ const convert = value => ({
 }[typeof value])
 
 export default ({ devices, selectedDeviceId }) => {
+    const [isOpen, setIsOpen] = useState(true);
     const [measurements, setMeasurements] = useState([]);
     const [expanded, setExpanded] = useState({});
 
@@ -18,13 +19,15 @@ export default ({ devices, selectedDeviceId }) => {
 
     useEffect(() => {
         if (selectedDeviceId) {
+            console.log(selectedDeviceId);
             getMeasurements(selectedDeviceId).then(setMeasurements);
             setExpanded({});
+            setIsOpen(true);
         }
     }, [selectedDeviceId])
 
     const renderEntry = ([key, val]) => (
-        <div className={styles.entry}>
+        <div key={key} className={styles.entry}>
             <div className={styles.key}>{key}:</div>
             <div className={styles.value}>{convert(val)}</div>
         </div>
@@ -33,7 +36,7 @@ export default ({ devices, selectedDeviceId }) => {
     const renderMeasurement = ({timestamp, ...others}, i) => {
         const isExpanded = expanded[i];
         return (
-            <div className={styles.measurement}>
+            <div key={i} className={styles.measurement}>
                 <div className={styles.measurementHeading} onClick={() => setExpanded({ ...expanded, [i]: !isExpanded })}>
                     <div className={styles.timestamp}>{timestamp}</div>
                     <div className={styles.expandButton}>+</div>
@@ -46,7 +49,8 @@ export default ({ devices, selectedDeviceId }) => {
     }
 
     return (
-        <div className={classNames(styles.container, device && styles.active)}>
+        <div className={classNames(styles.container, device && styles.active, !isOpen && styles.closed)}>
+        <div className={styles.minimize} onClick={() => setIsOpen(!isOpen)}>{isOpen ? '-' : '+'}</div>
             <div className={styles.heading}>Metadata</div>
             {device && Object.entries(device).map(renderEntry)}
             <div className={styles.heading}>Measurements</div>
