@@ -41,7 +41,7 @@ module.exports = async () => {
         ]
       });
 
-      const device1 = await Device.query().insertGraph({
+      const device3 = await Device.query().insertGraph({
         name: 'Kees',
         location: JSON.stringify({lat: 51.8960132, lng: 4.4776482}),
         createdAt: new Date().toISOString(),
