@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getMeasurements } from '../../api';
+import humanDate from 'human-date';
 import classNames from 'classnames';
 import styles from './styles.scss';
 
@@ -38,11 +39,13 @@ export default ({ devices, selectedDeviceId }) => {
         return (
             <div key={i} className={styles.measurement}>
                 <div className={styles.measurementHeading} onClick={() => setExpanded({ ...expanded, [i]: !isExpanded })}>
-                    <div className={styles.timestamp}>{timestamp}</div>
+                    <div className={styles.timestamp}>{`${timestamp} (${humanDate.relativeTime(timestamp)})`}</div>
                     <div className={styles.expandButton}>+</div>
                 </div>
                 <div className={classNames(styles.measurementBody, !isExpanded && styles.closed)}>
-                    {Object.entries(others).map(renderEntry)}
+                    {Object.entries(others)
+                        .filter(([key, val]) => !['id', 'deviceId'].includes(key))
+                        .map(renderEntry)}
                 </div>
             </div>
         )
