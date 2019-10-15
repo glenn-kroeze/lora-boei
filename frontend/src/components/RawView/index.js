@@ -34,13 +34,13 @@ export default ({ devices, selectedDeviceId }) => {
         </div>
     )
 
-    const renderMeasurement = ({timestamp, ...others}, i) => {
-        const isExpanded = expanded[i];
+    const renderMeasurement = ({timestamp, alwaysExpanded, ...others}, i) => {
+        const isExpanded = alwaysExpanded || expanded[i];
         return (
             <div key={i} className={styles.measurement}>
                 <div className={styles.measurementHeading} onClick={() => setExpanded({ ...expanded, [i]: !isExpanded })}>
                     <div className={styles.timestamp}>{`${timestamp} (${humanDate.relativeTime(timestamp)})`}</div>
-                    <div className={styles.expandButton}>+</div>
+                    <div className={styles.expandButton}>{isExpanded ? '-' : '+'}</div>
                 </div>
                 <div className={classNames(styles.measurementBody, !isExpanded && styles.closed)}>
                     {Object.entries(others)
@@ -51,12 +51,14 @@ export default ({ devices, selectedDeviceId }) => {
         )
     }
 
+    const [lastMeasurement] = measurements;
+
     return (
         <div className={classNames(styles.container, device && styles.active, !isOpen && styles.closed)}>
-        <div className={styles.minimize} onClick={() => setIsOpen(!isOpen)}>{isOpen ? '-' : '+'}</div>
-            <div className={styles.heading}>Metadata</div>
-            {device && Object.entries(device).map(renderEntry)}
-            <div className={styles.heading}>Measurements</div>
+        <div className={styles.minimize}>{device ? device.name : null}</div>
+            <div className={styles.heading}>Last measurement</div>
+            {lastMeasurement && renderMeasurement({...lastMeasurement, alwaysExpanded: true}, 0)}
+            <div className={styles.heading}>All Measurements</div>
             {measurements.length === 0
                 ? <div className={styles.card}>Loading measurements...</div>
                 : (
