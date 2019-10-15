@@ -19,16 +19,18 @@ router.get('/devices', async (req, res) => {
 router.get('/measurements', async (req, res) => {
   const id = req.query.deviceId;
   const measurements = await Measurement.query()
-    .where({deviceId: id});
+    .where({deviceId: id})
+    .orderBy('timestamp', 'desc');
     res.send(measurements);
 });
 
 router.post('/measurements', async (req, res) => {
-  const {hardware_serial, metadata: {time}} = req.body;
+  const {hardware_serial, payload_fields, metadata: {time}} = req.body;
+  const {temperature_1} = payload_fields;
   const device = await Device.query().findOne({deviceEui: hardware_serial});  
   await Measurement.query().insertGraph({
     deviceId: device.id,
-    //vals here
+    waterTemperature: temperature_1,
     timestamp: time
   });
 
