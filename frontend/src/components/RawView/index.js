@@ -13,18 +13,26 @@ const convert = value => ({
 
 export default ({ devices, selectedDeviceId }) => {
     const [isOpen, setIsOpen] = useState(true);
-    const [measurements, setMeasurements] = useState([]);
+    const [measurements, setMeasurements] = useState(null);
     const [expanded, setExpanded] = useState({});
 
     const device = devices.find(d => d.id === selectedDeviceId) || null;
 
     useEffect(() => {
+        let interval = null;
         if (selectedDeviceId) {
-            console.log(selectedDeviceId);
             getMeasurements(selectedDeviceId).then(setMeasurements);
             setExpanded({});
             setIsOpen(true);
+            interval = setInterval(() => {
+                getMeasurements(selectedDeviceId).then(setMeasurements);
+            }, 10000);
         }
+
+        if(interval) {
+            return () => clearInterval(interval);
+        }
+
     }, [selectedDeviceId])
 
     const renderEntry = ([key, val]) => (
@@ -51,7 +59,7 @@ export default ({ devices, selectedDeviceId }) => {
         )
     }
 
-    const [lastMeasurement] = measurements;
+    const lastMeasurement = measurements ? measurements.lastMeasurement : null;
 
     return (
         <div className={classNames(styles.container, device && styles.active, !isOpen && styles.closed)}>
@@ -59,11 +67,12 @@ export default ({ devices, selectedDeviceId }) => {
             <div className={styles.heading}>Last measurement</div>
             {lastMeasurement && renderMeasurement({...lastMeasurement, alwaysExpanded: true}, 0)}
             <div className={styles.heading}>All Measurements</div>
-            {measurements.length === 0
-                ? <div className={styles.card}>Loading measurements...</div>
-                : (
-                    measurements.map(renderMeasurement)
-                )}
+            {measurements
+                ? measurements.length > 0 
+                    ? measurements.map(renderMeasurement)
+                    : <div className={styles.card}>No measurements found for this device.</div>
+                : <div className={styles.card}>Loading measurements...</div>
+            }
         </div>
     )
 
