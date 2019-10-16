@@ -59,7 +59,7 @@ export default ({ devices, selectedDeviceId }) => {
         )
     }
 
-    const lastMeasurement = measurements ? measurements.lastMeasurement : null;
+    const lastMeasurement = measurements ? measurements[0] : null;
 
     return (
         <div className={classNames(styles.container, device && styles.active, !isOpen && styles.closed)}>
