@@ -35,6 +35,8 @@ router.post('/measurements', async (req, res) => {
 
   const phValue = (674.4 - analog_in_1) / -15.655;
 
+  console.log(`Inserting measurement at ${Date().now().toISOString()}`, {temperature_1, temperature_2, phValue, analog_in_2})
+
   const device = await Device.query().findOne({deviceEui: hardware_serial});  
   await Measurement.query().insertGraph({
     deviceId: device.id,
