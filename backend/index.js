@@ -26,11 +26,22 @@ router.get('/measurements', async (req, res) => {
 
 router.post('/measurements', async (req, res) => {
   const {hardware_serial, payload_fields, metadata: {time}} = req.body;
-  const {temperature_1} = payload_fields;
+  const {
+    temperature_1, //Water temp
+    temperature_2, //Air temp
+    analog_in_1, //pH sensor reading
+    analog_in_2, //???
+  } = payload_fields;
+
+  const phValue = (674.4 - analog_in_1) / -15.655;
+
   const device = await Device.query().findOne({deviceEui: hardware_serial});  
   await Measurement.query().insertGraph({
     deviceId: device.id,
     waterTemperature: temperature_1,
+    airTemperature: temperature_2,
+    phValue,
+    salinity: analog_in_2,
     timestamp: time
   });
 

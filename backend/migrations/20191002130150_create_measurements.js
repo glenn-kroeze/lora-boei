@@ -6,6 +6,8 @@ exports.up = function(knex) {
         table.integer('deviceId').references('devices.id');
         table.float('waterTemperature');
         table.float('airTemperature');
+        table.float('phValue');
+        table.float('salinity');
         table.dateTime('timestamp');
     })
   ])
