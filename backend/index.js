@@ -33,7 +33,7 @@ router.post('/measurements', async (req, res) => {
     analog_in_2, //???
   } = payload_fields;
 
-  const phValue = (674.4 - analog_in_1) / -15.655;
+  const phValue = (674.4 - (analog_in_1 * 10)) / -15.655;
 
   console.log(`Inserting measurement at ${Date().now().toISOString()}`, {temperature_1, temperature_2, phValue, analog_in_2})
 
@@ -42,8 +42,7 @@ router.post('/measurements', async (req, res) => {
     deviceId: device.id,
     waterTemperature: temperature_1,
     airTemperature: temperature_2,
-    phValue,
-    salinity: analog_in_2,
+    salinity: analog_in_2 * 10,
     timestamp: time
   });
 
@@ -53,6 +52,7 @@ router.post('/measurements', async (req, res) => {
 });
 
 app.use('/api', router);
+app.use('/', express.static(__dirname + '/app'))
 
 //Objection and knex, my babies
 const Knex = require('knex');
