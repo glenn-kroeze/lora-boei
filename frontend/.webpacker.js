@@ -8,7 +8,7 @@ const env = `${process.env.NODE_ENV || 'development'}`;
 const constants = require(`./config/${env}`);
 const {isProduction, isDevelopment} = require('./config');
 const scssVariables = path.resolve(__dirname, './src/scss/variables.scss');
-const base = isProduction ? '/dist/' : '/';
+const base = '/';
 
 const postcssOpts = postcssPresetEnv({
   browsers: ['last 2 versions', 'IE 10']
