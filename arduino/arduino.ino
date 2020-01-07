@@ -3,6 +3,7 @@
 #include <CayenneLPP.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <LowPower.h>
 
 // Serial com
 #define debugSerial Serial
@@ -30,6 +31,7 @@ DallasTemperature tempSensors(&oneWire);
 #define AnalogSalt A1   // Analog pin for salt measurement
 
 void setup() {
+  delay(15000);
   loraSerial.begin(57600);
   debugSerial.begin(9600);
 
