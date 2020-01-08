@@ -13,7 +13,7 @@
 #define freqPlan TTN_FP_EU868
 const char *appEui = "70B3D57ED0022C4A";
 const char *appKey = "0EEC435188193DA8E409D5DA099F785D";
-TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan);
+TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan, 0);
 int counter = 0;
 const unsigned long MAX_LONG = 4294967295;  // hiermee kunnen we de lora module maximaal laten slapen zodat als de code niet meer werkt het alsnog stroom minimaliseerd
 int max_payload_cayenne = 51;
@@ -48,7 +48,7 @@ void setup() {
   // Wait a maximum of 10s for Serial Monitor
   while (!debugSerial && millis() < 10000);
 
-  ttn.join(appEui, appKey, 3, 10000);        /* als deze gecommend is kan je zonder connectie doorgaan */
+  ttn.join(appEui, appKey, -1, 10000);        /* als deze gecommend is kan je zonder connectie doorgaan */
 }
 
 // global methode to read an analog sensor
@@ -163,7 +163,7 @@ void loop() {
   sendData(lpp);
 
   // Sleep
-  goSleep(20000);
+  sleep(600);
 }
 
 // temporarily variables to hold on the data
