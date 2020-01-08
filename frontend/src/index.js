@@ -41,7 +41,7 @@ const App = () => {
         <div className={styles.container}>
             <Map devices={devices} selectedDeviceId={selectedDeviceId} onSelect={setSelectedDeviceId} />
             <DeviceList devices={devices} selectedDeviceId={selectedDeviceId} onSelect={setSelectedDeviceId} />
-            <RawView devices={devices} selectedDeviceId={selectedDeviceId} />
+            {selectedDeviceId && <RawView devices={devices} selectedDeviceId={selectedDeviceId} />}
         </div>
     );
 }
