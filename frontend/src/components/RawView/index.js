@@ -26,7 +26,7 @@ export default ({ devices, selectedDeviceId }) => {
             setIsOpen(true);
             interval = setInterval(() => {
                 getMeasurements(selectedDeviceId).then(setMeasurements);
-            }, 10000);
+            }, 3000);
         }
 
         if(interval) {

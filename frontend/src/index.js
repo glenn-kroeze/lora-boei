@@ -28,6 +28,8 @@ const App = () => {
 
     useEffect(() => {
             getDevices().then(setDevices);
+            const interval = setInterval(() => getDevices().then(setDevices), 3000);
+            return () => clearInterval(interval);
         }, []);
 
     useEffect(() => {
