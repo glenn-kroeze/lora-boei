@@ -34,6 +34,8 @@ router.post('/measurements', async (req, res) => {
     analog_in_3, //Counter
   } = payload_fields;
 
+  const device = await Device.query().findOne({deviceEui: hardware_serial});  
+
   const phValue = (674.4 - (analog_in_1 * 10)) / -15.655;
   
   const row = {
@@ -49,7 +51,6 @@ router.post('/measurements', async (req, res) => {
   const now = new Date();
   console.log(`Inserting measurement at ${now.toISOString()}`, row)
 
-  const device = await Device.query().findOne({deviceEui: hardware_serial});  
   await Measurement.query().insertGraph(row);
 
   await Device.query()
