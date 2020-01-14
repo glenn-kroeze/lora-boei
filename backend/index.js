@@ -37,13 +37,14 @@ router.post('/measurements', async (req, res) => {
   const device = await Device.query().findOne({deviceEui: hardware_serial});  
 
   const phValue = (analog_in_1 * 10 - 674.4) / -15.655;
+  const resistance = analog_in_2 < 0 ? 'ERR_FAULTY_MEASUREMENT' : (analog_in_2 * 10).toString()
   
   const row = {
     deviceId: device.id,
     waterTemperature: temperature_1,
     airTemperature: temperature_2,
     phValue,
-    resistance: analog_in_2 * 10,
+    resistance,
     sequenceId: analog_in_3,
     timestamp: time
   }

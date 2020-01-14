@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.float('waterTemperature');
         table.float('airTemperature');
         table.float('phValue');
-        table.float('resistance');
+        table.string('resistance');
         table.integer('sequenceId');
         table.dateTime('timestamp');
     })
