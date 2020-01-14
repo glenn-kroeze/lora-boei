@@ -50,17 +50,17 @@ export default ({ devices, selectedDeviceId }) => {
         </div>
     )
 }
-    const renderMeasurement = ({timestamp, alwaysExpanded, ...others}, i) => {
-        const isExpanded = alwaysExpanded || expanded[i];
+    const renderMeasurement = ({id, timestamp, alwaysExpanded, ...others}, i) => {
+        const isExpanded = alwaysExpanded || expanded[id];
         return (
             <div key={i} className={styles.measurement}>
-                <div className={styles.measurementHeading} onClick={() => setExpanded({ ...expanded, [i]: !isExpanded })}>
+                <div className={styles.measurementHeading} onClick={() => setExpanded({ ...expanded, [id]: !isExpanded })}>
                     <div className={styles.timestamp}>{`${timestamp} (${humanDate.relativeTime(timestamp)})`}</div>
                     <div className={styles.expandButton}>{isExpanded ? '-' : '+'}</div>
                 </div>
                 <div className={classNames(styles.measurementBody, !isExpanded && styles.closed)}>
                     {Object.entries(others)
-                        .filter(([key, val]) => !['id', 'deviceId'].includes(key))
+                        .filter(([key, val]) => key !== 'deviceId')
                         .map(renderEntry)}
                 </div>
             </div>
