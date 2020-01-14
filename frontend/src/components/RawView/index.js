@@ -11,6 +11,12 @@ const convert = value => ({
     object: JSON.stringify(value)
 }[typeof value])
 
+const unitOf = propertyName => ({
+    waterTemperature:  '°C',
+    airTemperature: '°C',
+    resistance: 'Ω / cm'
+}[propertyName])
+
 export default ({ devices, selectedDeviceId }) => {
     const [isOpen, setIsOpen] = useState(true);
     const [measurements, setMeasurements] = useState(null);
@@ -35,13 +41,15 @@ export default ({ devices, selectedDeviceId }) => {
 
     }, [selectedDeviceId])
 
-    const renderEntry = ([key, val]) => (
+    const renderEntry = ([key, val]) => {
+    const unit = unitOf(key);
+    return (
         <div key={key} className={styles.entry}>
             <div className={styles.key}>{key}:</div>
-            <div className={styles.value}>{convert(val)}</div>
+            <div className={styles.value}>{`${convert(val)} ${unit || ''}`}</div>
         </div>
     )
-
+}
     const renderMeasurement = ({timestamp, alwaysExpanded, ...others}, i) => {
         const isExpanded = alwaysExpanded || expanded[i];
         return (
