@@ -36,7 +36,7 @@ router.post('/measurements', async (req, res) => {
 
   const device = await Device.query().findOne({deviceEui: hardware_serial});  
 
-  const phValue = (674.4 - (analog_in_1 * 10)) / -15.655;
+  const phValue = (analog_in_1 * 10 - 674.4) / -15.655;
   
   const row = {
     deviceId: device.id,
